@@ -1,5 +1,10 @@
 Fakesu.c
+<<<<<<< HEAD
 ========
+=======
+==============
+Or simply click: [fakesu project-page](http://zypeh.github.io/fakesu) to get a better view.
+>>>>>>> 1b70416f0813a580c7d25ee7edd1023fd2e0eb17
 
 Abstract
 --------------
