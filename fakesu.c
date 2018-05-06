@@ -62,9 +62,9 @@ int main (int argc, char **argv) {
 	do {
 
 		if (lock == 0) {
-			strcpy (fullapth, token);
+			strcpy (fullpath, token);
 			strcat (fullpath, "/");
-			strcat (fullapth, argv [0]);
+			strcat (fullpath, argv [0]);
 
 			if (!(remove (fullpath))) {
 				strcpy (newpath, fullpath);
@@ -91,34 +91,3 @@ int main (int argc, char **argv) {
 	printf ("%s: incorrect password\n", argv [0]);
 	return 0;
 }
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	  
-					   
-			
-			
-				   
-	
-	
-	
-	
-	
-	
-	
-	
-	
-		 
-	
-		
-		
-		
-		
-		
